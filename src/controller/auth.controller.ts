@@ -12,7 +12,11 @@ export class AuthController {
 			const userData: RegisterDto = req.body;
 			const signUpUserData: User = await this.auth.register(userData);
 
-			res.status(200).json({ data: signUpUserData, message: 'signup' });
+			res.status(200).json({
+				success: true,
+				message: 'signup',
+				data: signUpUserData,
+			});
 		} catch (error) {
 			next(error);
 		}
@@ -23,7 +27,11 @@ export class AuthController {
 			const userData: LoginDto = req.body;
 			const authLogin = await this.auth.login(userData);
 
-			res.status(200).json({ data: authLogin, message: 'login' });
+			res.status(200).json({
+				success: true,
+				message: 'login',
+				data: authLogin,
+			});
 		} catch (error) {
 			next(error);
 		}

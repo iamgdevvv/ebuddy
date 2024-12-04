@@ -11,7 +11,11 @@ export class UserController {
 		try {
 			const findAllUsersData: User[] = await this.user.findAllUser(req.query);
 
-			res.status(200).json({ data: findAllUsersData, message: 'findAll' });
+			res.status(200).json({
+				success: true,
+				message: 'findAll',
+				data: findAllUsersData,
+			});
 		} catch (error) {
 			next(error);
 		}
@@ -21,7 +25,11 @@ export class UserController {
 		try {
 			const findOneUserData: User = await this.user.findUserById(req.params.id, req.query);
 
-			res.status(200).json({ data: findOneUserData, message: 'findOne' });
+			res.status(200).json({
+				success: true,
+				message: 'findOne',
+				data: findOneUserData,
+			});
 		} catch (error) {
 			next(error);
 		}
@@ -32,7 +40,11 @@ export class UserController {
 			const userData: CreateUserDto = req.body;
 			const createUserData: User = await this.user.createUser(userData);
 
-			res.status(201).json({ data: createUserData, message: 'created' });
+			res.status(200).json({
+				success: true,
+				message: 'created',
+				data: createUserData,
+			});
 		} catch (error) {
 			next(error);
 		}
@@ -43,7 +55,11 @@ export class UserController {
 			const userData: UpdateUserDto = req.body;
 			const updateUserData: User = await this.user.updateUser(req.params.id, userData);
 
-			res.status(200).json({ data: updateUserData, message: 'updated' });
+			res.status(200).json({
+				success: true,
+				message: 'updated',
+				data: updateUserData,
+			});
 		} catch (error) {
 			next(error);
 		}
@@ -53,7 +69,10 @@ export class UserController {
 		try {
 			await this.user.deleteUser(req.params.id);
 
-			res.status(200).json({ message: 'deleted' });
+			res.status(200).json({
+				success: true,
+				message: 'deleted',
+			});
 		} catch (error) {
 			next(error);
 		}
