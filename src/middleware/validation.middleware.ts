@@ -18,7 +18,6 @@ export function ValidationMiddleware<DTO extends object>(
 	forbidNonWhitelisted = true,
 ) {
 	return (req: Request, _: Response, next: NextFunction) => {
-		console.log({ body: req.body });
 		const dto = plainToInstance(type, req.body);
 
 		validateOrReject(dto, { skipMissingProperties, whitelist, forbidNonWhitelisted })

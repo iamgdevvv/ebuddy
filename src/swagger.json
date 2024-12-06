@@ -59,6 +59,24 @@
         }
       }
     },
+    "/users/me": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "patch": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/fetch-user-data/{id}": {
       "get": {
         "description": "",

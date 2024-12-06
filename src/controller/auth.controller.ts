@@ -14,6 +14,7 @@ export class AuthController {
 
 			res.status(200).json({
 				success: true,
+				statusCode: 200,
 				message: 'signup',
 				data: signUpUserData,
 			});
@@ -29,6 +30,7 @@ export class AuthController {
 
 			res.status(200).json({
 				success: true,
+				statusCode: 200,
 				message: 'login',
 				data: authLogin,
 			});

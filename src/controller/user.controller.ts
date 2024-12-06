@@ -13,6 +13,7 @@ export class UserController {
 
 			res.status(200).json({
 				success: true,
+				statusCode: 200,
 				message: 'findAll',
 				data: findAllUsersData,
 			});
@@ -27,8 +28,47 @@ export class UserController {
 
 			res.status(200).json({
 				success: true,
+				statusCode: 200,
 				message: 'findOne',
 				data: findOneUserData,
+			});
+		} catch (error) {
+			next(error);
+		}
+	};
+
+	public getUserMe = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+		try {
+			// @ts-expect-error
+			const userAuth = req.user as User;
+
+			const findOneUserData: User = await this.user.findUserById(userAuth.id, req.query);
+
+			res.status(200).json({
+				success: true,
+				statusCode: 200,
+				message: 'findOne',
+				data: findOneUserData,
+			});
+		} catch (error) {
+			next(error);
+		}
+	};
+
+	public updateUserMe = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+		try {
+			const userData: UpdateUserDto = req.body;
+
+			// @ts-expect-error
+			const userAuth = req.user as User;
+
+			const updateUserData: User = await this.user.updateUser(userAuth.id, userData);
+
+			res.status(200).json({
+				success: true,
+				statusCode: 200,
+				message: 'updated',
+				data: updateUserData,
 			});
 		} catch (error) {
 			next(error);
@@ -42,6 +82,7 @@ export class UserController {
 
 			res.status(200).json({
 				success: true,
+				statusCode: 200,
 				message: 'created',
 				data: createUserData,
 			});
@@ -57,6 +98,7 @@ export class UserController {
 
 			res.status(200).json({
 				success: true,
+				statusCode: 200,
 				message: 'updated',
 				data: updateUserData,
 			});
@@ -71,6 +113,7 @@ export class UserController {
 
 			res.status(200).json({
 				success: true,
+				statusCode: 200,
 				message: 'deleted',
 			});
 		} catch (error) {

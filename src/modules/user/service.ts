@@ -125,26 +125,24 @@ export class UserService {
 	}
 
 	public async updateUser(userId: string, payload: UpdateUserDto): Promise<User> {
-		if (payload.email) {
+		const userRef = collectionUser.doc(userId);
+
+		const userSnapshot = await userRef.get();
+		if (!userSnapshot.exists) throw new HttpException(409, "User doesn't exist");
+
+		const userData = userSnapshot.data() as Omit<User, 'id'>;
+
+		if (payload.email !== userData.email) {
 			const userByEmailSnapshot = await collectionUser.where('email', '==', payload.email).limit(1).get();
 			if (!userByEmailSnapshot.empty) throw new HttpException(409, `This email ${payload.email} already exists`);
 		}
 
-		if (payload.username) {
+		if (payload.username !== userData.username) {
 			const userByUsernameSnapshot = await collectionUser.where('username', '==', payload.username).limit(1).get();
 			if (!userByUsernameSnapshot.empty) throw new HttpException(409, `This username ${payload.username} already exists`);
 		}
 
-		const userRef = collectionUser.doc(userId);
-
-		const userData = await userRef.firestore.runTransaction(async t => {
-			const userSnapshot = await t.get(userRef);
-			if (!userSnapshot.exists) throw new HttpException(409, "User doesn't exist");
-
-			t.update(userRef, instanceToPlain(payload));
-
-			return userSnapshot.data() as Omit<User, 'id'>;
-		});
+		await userRef.update(instanceToPlain(payload));
 
 		return {
 			id: userId,
