@@ -1,7 +1,9 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
+	env: {
+		HOST_SERVER: process.env.HOST_SERVER,
+	},
 };
 
 export default nextConfig;
