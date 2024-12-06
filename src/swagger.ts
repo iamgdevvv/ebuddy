@@ -10,4 +10,8 @@ const doc = {
 const outputFile = './swagger.json';
 const routes = ['./modules/auth/route', './modules/user/route'];
 
-swaggerAutogen()(outputFile, routes, doc);
+const swaggerGenDoc = () => {
+	return swaggerAutogen()(outputFile, routes, doc);
+};
+
+export default swaggerGenDoc;

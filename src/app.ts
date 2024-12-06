@@ -11,7 +11,7 @@ import { NODE_ENV, PORT, LOG_FORMAT, ORIGIN, CREDENTIALS } from '@config';
 import { ErrorMiddleware } from '@middleware/error.middleware';
 import { logger, stream } from '@utils/logger';
 
-import swaggerSpec from './swagger.json';
+import swaggerGenDoc from './swagger';
 
 export class App {
 	public app: express.Application;
@@ -59,12 +59,18 @@ export class App {
 		});
 	}
 
-	private initializeSwagger() {
-		this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-		this.app.get('/swagger.json', (_, res) => {
-			res.setHeader('Content-Type', 'application/json');
-			res.send(swaggerSpec);
-		});
+	private async initializeSwagger() {
+		if (this.env !== 'test') {
+			const swaggerSpec = await swaggerGenDoc();
+
+			if (swaggerSpec) {
+				this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec.data));
+				this.app.get('/swagger.json', (_, res) => {
+					res.setHeader('Content-Type', 'application/json');
+					res.send(swaggerSpec);
+				});
+			}
+		}
 	}
 
 	private initializeErrorHandling() {

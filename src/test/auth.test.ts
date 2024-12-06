@@ -1,21 +1,28 @@
 import request from 'supertest';
+import { faker } from '@faker-js/faker';
 import { App } from '@/app';
 import { AuthRoute } from '@/modules/auth/route';
 import type { LoginDto, RegisterDto } from '@/modules/auth/dto';
 
 const payloadLogin: LoginDto = {
-	username: 'example@email.com',
-	password: 'password123456789',
+	username: faker.internet.username(),
+	password: faker.internet.password(),
 };
 
 const payloadRegister: RegisterDto = {
 	...payloadLogin,
-	email: 'example@email.com',
+	email: faker.internet.email(),
 };
 
 describe('TEST Authorization API', () => {
 	const authRoute = new AuthRoute();
 	const app = new App([authRoute.router]);
+
+	describe('[POST] /register', () => {
+		it('response should http code 200', () => {
+			return request(app.getServer()).post('/register').send(payloadRegister).expect(200);
+		});
+	});
 
 	describe('[POST] /register', () => {
 		it('response should http code 409 Conflict cause email already exists', () => {
