@@ -7,13 +7,12 @@
 	"engines": {
 		"node": "20.x"
 	},
-	"main": "src/index.ts",
 	"scripts": {
 		"test": "jest --forceExit --detectOpenHandles",
 		"lint": "eslint . --fix",
 		"build": "npm run lint && cross-env NODE_ENV=development swc src -d dist --source-maps --copy-files",
-		"dev": "cross-env NODE_ENV=development tsx watch src/index.ts",
-		"start": "cross-env NODE_ENV=production node dist/src/index.js"
+		"dev": "cross-env NODE_ENV=development tsx watch src/server.ts",
+		"start": "cross-env NODE_ENV=production node dist/src/server.js"
 	},
 	"dependencies": {
 		"bcrypt": "^5.1.1",
